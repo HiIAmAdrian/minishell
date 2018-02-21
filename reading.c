@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/14 17:06:51 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/19 18:51:43 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/21 19:46:59 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,32 @@ char	*read_stdin(void)
 
 	i = 1;
 	buf[1] = 0;
+	g_pointer = g_history;
 	if (!(str = (char*)ft_memalloc(sizeof(char) * i++)))
 		error_exit("malloc: Allocation error!", 2);
 	while ((ret = read(0, buf, 1)) && buf[0] != '\n')
+	{
 		if (!(str = ft_strjoin(str, buf)))
 			error_exit("malloc: Allocation error!", 2);
+		if (ft_strstr(str,"^[[A"))
+		{
+			ft_putstr_fd("lol",1);
+			ft_putstr_fd(g_pointer->prev->str, 1);
+			g_pointer = g_pointer->prev;
+		}
+		else if (ft_strstr(str,"^[[B"))
+		{
+			ft_putstr_fd(g_pointer->next->str, 1);
+			g_pointer = g_pointer->next;
+		}
+	}
 	if (!ret)
 	{
 		free(str);
 		exit(0);
 	}
+	g_history->next = push(str, g_history);
+	g_history = g_history->next;
 	return (str);
 }
 

@@ -6,12 +6,11 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 12:24:18 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/20 21:12:30 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/21 16:10:20 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 int		run_commands(char ***arg)
 {
 	int i;

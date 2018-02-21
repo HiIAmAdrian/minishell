@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 12:51:57 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/20 21:03:45 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/21 20:12:52 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	change_dir(char **arg, char *cwd)
 
 	if (!(chdir(arg[1])))
 	{
-        i = search_env("OLDPWD");
-        put_env("OLDPWD", cwd, i);
+		i = search_env("OLDPWD");
+		put_env("OLDPWD", cwd, i);
 		i = search_env("PWD");
 		cwd = getcwd(buf, 1024);
 		put_env("PWD", cwd, i);
@@ -57,21 +57,34 @@ void	cd_builtin(char **arg)
 	else if (arg[1][0] == '-' && !arg[1][1])
 	{
 		i = search_env("OLDPWD");
-		ft_putendl(ft_parse_home(ft_strchr(g_env[i], '/')));
-		chdir(ft_strchr(g_env[i], '/'));
-		put_env("OLDPWD", cwd, i);
-		cwd = getcwd(buf, 1024);
-		i = search_env("PWD");
-		put_env("PWD", cwd, i);
+		if (i == -1)
+			ft_putendl_fd("cd: YOU DELETED OLDPWD YOU DUMBASS :))", 2);
+		else
+		{
+			ft_putendl(ft_parse_home(ft_strchr(g_env[i], '/')));
+			chdir(ft_strchr(g_env[i], '/'));
+			put_env("OLDPWD", cwd, i);
+			cwd = getcwd(buf, 1024);
+			i = search_env("PWD");
+			put_env("PWD", cwd, i);
+		}
 	}
 	else
 		change_dir(arg, cwd);
+}
+
+void	process_signal(int signo)
+{
+	//dc asta omoara procesul pe cand celalalt sig handler nu il omoara
+	if (signo == SIGINT)
+		ft_putstr("\n");
 }
 
 int		exec_cmd(char *path, char **arg)
 {
 	pid_t pid;
 	pid	= fork();
+	signal(SIGINT, process_signal);
 	if (pid < 0)
 	{
 		free(path);

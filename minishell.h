@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 11:12:19 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/20 20:24:12 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/21 19:45:02 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,21 @@
 # include <dirent.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <signal.h>
 
+typedef	struct 		s_stack
+{
+	char			*str;
+	struct s_stack	*next;
+	struct s_stack	*prev;
+}					t_stack;
 
 char	**g_env;
 char	*g_home;
+t_stack	*g_history;
+t_stack *g_pointer;
 
+t_stack *push(char *s, t_stack *pre);
 void	display_prompt();
 char	*read_stdin();
 char	**parse_stdin(char *str);
