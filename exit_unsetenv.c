@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 18:55:31 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/20 21:06:39 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/22 20:27:00 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,23 @@
 
 void	exit_sh(void)
 {
+	char **clear;
+
+	clear = (char**)ft_memalloc(sizeof(clear));
+	if(!(clear[0] = ft_strdup("clear")))
+		exit(0);
+	clear[1] = NULL;
+	free(g_home);
 	ft_putendl("\n\x1B[31mExiting...\x1B[0m\n");
+	sleep(1);
+	bin_exec(clear);
+	ft_matrix_clear(clear);
 	exit(0);
 }
 
 void    error_exit(char *str, int fd)
 {
-	ft_strdel(g_env);
+	ft_matrix_clear(g_env);
 	free(g_home);
 	ft_putendl_fd(str,fd);
 	exit(0);

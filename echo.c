@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 14:53:12 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/19 18:34:10 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/22 20:21:22 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_char_rm(char *str, char c)
 		i++;
 	}
 	if (!(new = (char*)ft_memalloc(sizeof(char) * (i + 1 - nr))))
-		error_exit("malloc: Allocation error!", 2);
+		ft_putendl_fd("malloc: Allocation error!", 2);
 	i = 0;
 	nr = 0;
 	while (str[i])
@@ -36,6 +36,8 @@ char	*ft_char_rm(char *str, char c)
 			new[nr++] = str[i];
 		i++;
 	}
+	if (str)
+		free(str);
 	return (new);
 }
 

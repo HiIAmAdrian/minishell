@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 10:57:45 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/20 19:19:01 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/22 20:27:24 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,19 @@ void	display_prompt()
 {
 	char	*cwd;
 	char	buf[4097];
+	int		parsed;
 
+	parsed = 0;
 	cwd = getcwd(buf,4096);
 	if (ft_strlen(cwd) >= ft_strlen(g_home))
+	{
 		cwd = ft_parse_home(cwd);
+		parsed = 1;
+	}
 	ft_putstr("\033[1m\x1b[36m");
 	ft_putstr(cwd);
-	free(cwd);
+	if (parsed)
+		free(cwd);
 	ft_putstr("\x1b[0m");
 	ft_putchar(' ');
 	ft_putstr("$> ");

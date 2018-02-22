@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 12:51:57 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/21 20:12:52 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/22 20:21:12 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,16 @@ void	cd_builtin(char **arg)
 	char	buf[1025];
 
 	cwd = getcwd(buf, 1024);
-	if (arg[1] == NULL || ft_strequ(arg[1], "~") ||
-			ft_strequ("--", arg[1]))
+	if (arg[2] != NULL)
+	{
+		ft_putendl_fd("cd: Too many arguments!", 2);
+		return ;
+	}
+	if (ft_strchr(arg[1],'~'))
+		if (!(arg[1] = ft_strjoin(g_home,
+						ft_strsub(arg[1], 1, ft_strlen(arg[1])))))
+			ft_putendl_fd("minishell: cd failed!", 2);
+	if (arg[1] == NULL || ft_strequ("--", arg[1]))
 	{
 		i = search_env("OLDPWD");
 		put_env("OLDPWD", cwd, i);
@@ -61,7 +69,10 @@ void	cd_builtin(char **arg)
 			ft_putendl_fd("cd: YOU DELETED OLDPWD YOU DUMBASS :))", 2);
 		else
 		{
-			ft_putendl(ft_parse_home(ft_strchr(g_env[i], '/')));
+			if (ft_strstr(g_env[i], g_home))
+				ft_putendl(ft_parse_home(ft_strchr(g_env[i], '/')));
+			else
+				ft_putendl(ft_strchr(g_env[i],'/'));
 			chdir(ft_strchr(g_env[i], '/'));
 			put_env("OLDPWD", cwd, i);
 			cwd = getcwd(buf, 1024);
@@ -134,9 +145,10 @@ int		isThereEx(char *str, char **arg)
 
 void	bin_exec(char **arg)
 {
-	char	**paths;
-	int		i;
-	int		ok;
+	char		**paths;
+	int			i;
+	int			ok;
+	struct stat st;
 
 	ok = 0;
 	paths = ft_strsplit(g_env[search_env("PATH")] + 5, ':');
@@ -146,6 +158,23 @@ void	bin_exec(char **arg)
 		if ((isThereEx(paths[i], arg)) == 0)
 			ok = 1;
 		i++;
+	}
+	if (!ok)
+	{
+		if ((lstat(arg[0],&st)) == -1)
+			ft_putendl_fd("minishell: lstat failed", 2);
+		if ((S_ISDIR(st.st_mode)))
+		{
+			ok = 1;
+			cd_builtin(arg);
+			return ;
+		}
+		if (st.st_mode & S_IXUSR)
+		{
+			ok = 1;
+			exec_cmd(arg[0], arg);
+			return ;
+		}
 	}
 	if (!ok)
 	{
