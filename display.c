@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 10:57:45 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/22 20:27:24 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/24 16:36:34 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,22 @@ char	*ft_parse_home(char *str)
 {
 	char	*new;
 
-	if ((ft_strnequ(str, g_home, ft_strlen(g_home))))
-	{
-		if (!(new = ft_strjoin("~", ft_strsub(str, ft_strlen(g_home),
-					(ft_strlen(str) - ft_strlen(g_home))))))
-			error_exit("malloc: Allocation error!", 2);
-	}
+	new = NULL;
+	ft_strnequ(str, g_home, ft_strlen(g_home));
+	if (!(new = ft_strjoin("~", ft_strsub(str, ft_strlen(g_home),
+						(ft_strlen(str) - ft_strlen(g_home))))))
+		error_exit(M_ERROR, 2);
 	return (new);
 }
 
-void	display_prompt()
+void	display_prompt(void)
 {
 	char	*cwd;
 	char	buf[4097];
 	int		parsed;
 
 	parsed = 0;
-	cwd = getcwd(buf,4096);
+	cwd = getcwd(buf, 4096);
 	if (ft_strlen(cwd) >= ft_strlen(g_home))
 	{
 		cwd = ft_parse_home(cwd);
@@ -46,4 +45,3 @@ void	display_prompt()
 	ft_putchar(' ');
 	ft_putstr("$> ");
 }
-

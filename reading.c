@@ -6,29 +6,39 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/14 17:06:51 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/22 20:27:36 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/24 16:04:31 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int		put_stdin(unsigned int key)
+{
+	if (key == K_TAB)
+		ft_putstr_fd("lol", 1);
+	if (key == K_ENTER)
+		return (0);
+	return (1);
+}
+
 char	*read_stdin(void)
 {
-	int		i;
 	char	buf[2];
 	char	*str;
 	int		ret;
 
-	i = 1;
 	buf[1] = 0;
-	if (!(str = (char*)ft_memalloc(sizeof(char) * i++)))
-		error_exit("malloc: Allocation error!", 2);
-	while ((ret = read(0, buf, 1)) && buf[0] != '\n')
+	if (!(str = (char*)ft_memalloc(sizeof(char))))
+		error_exit(M_ERROR, 2);
+	while ((ret = read(0, buf, 1)) && (put_stdin((unsigned int)*buf)))
+	{
 		if (!(str = ft_strjoin(str, buf)))
-			error_exit("malloc: Allocation error!", 2);
+			error_exit(M_ERROR, 2);
+	}
 	if (!ret)
 	{
-		free(str);
+		if (str)
+			free(str);
 		exit(0);
 	}
 	return (str);
@@ -40,12 +50,12 @@ char	**parse_stdin(char *str)
 	int		i;
 
 	i = 0;
-	if (!(arg = ft_strsplit(str,';')))
-		error_exit("malloc: Allocation error!", 2);
+	if (!(arg = ft_strsplit(str, ';')))
+		error_exit(M_ERROR, 2);
 	while (arg[i])
 	{
 		if (!(arg[i] = ft_strtrim(arg[i])))
-			error_exit("malloc: Allocation error!", 2);
+			error_exit(M_ERROR, 2);
 		i++;
 	}
 	return (arg);
@@ -60,12 +70,12 @@ char	***parse_arguments(char **arg)
 	while (arg[i])
 		i++;
 	if (!(tri = (char***)ft_memalloc(sizeof(char**) * (i + 1))))
-		error_exit("malloc: Allocation error!", 2);
+		error_exit(M_ERROR, 2);
 	i = 0;
 	while (arg[i])
 	{
 		if (!(tri[i] = ft_strsplit(arg[i], ' ')))
-			error_exit("malloc: Allocation error!", 2);
+			error_exit(M_ERROR, 2);
 		i++;
 	}
 	return (tri);

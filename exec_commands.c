@@ -6,17 +6,18 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 12:24:18 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/21 16:10:20 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/24 16:20:34 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 int		run_commands(char ***arg)
 {
 	int i;
 
-	i = 0;
-	while (arg[i])
+	i = -1;
+	while (arg[++i])
 	{
 		if ((ft_strnequ(arg[i][0], "cd", 2)))
 			cd_builtin(arg[i]);
@@ -30,10 +31,8 @@ int		run_commands(char ***arg)
 			unsetenv_builtin(arg[i]);
 		else if ((ft_strnequ(arg[i][0], "exit", 4)))
 			exit_sh();
-		else 
+		else
 			bin_exec(arg[i]);
-		i++;
 	}
-	return(0);
+	return (0);
 }
-
