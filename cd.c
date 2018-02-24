@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 12:51:57 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/24 16:50:49 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/24 18:28:07 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	change_dir(char *str, char *cwd)
 	int		i;
 	char	buf[1025];
 
+	ft_putendl(str);
 	if (!(chdir(str)))
 	{
 		i = search_env("OLDPWD");
@@ -37,6 +38,16 @@ void	change_dir(char *str, char *cwd)
 	}
 }
 
+int		arg_length(char **arg)
+{
+	int i;
+
+	i = 0;
+	while (arg[i])
+		i++;
+	return (i);
+}
+
 void	cd_builtin(char **arg)
 {
 	int		i;
@@ -44,17 +55,21 @@ void	cd_builtin(char **arg)
 	char	buf[1025];
 
 	cwd = getcwd(buf, 1024);
-	if (arg[2] != NULL)
+	if (arg_length(arg) > 2)
 	{
-		ft_putendl_fd("cd: Too many arguments!", 2);
+		ft_putendl_fd("cd: too many arguments!", 2);
 		return ;
 	}
-	if (ft_strchr(arg[1], '~'))
+	else if (arg[1] && ft_strchr(arg[1], '~'))
+	{
 		if (!(arg[1] = ft_strjoin(g_home,
 						ft_strsub(arg[1], 1, ft_strlen(arg[1])))))
 			ft_putendl_fd(M_ERROR, 2);
-	if (arg[1] == NULL || ft_strequ("--", arg[1]))
+	}
+	else if (arg_length(arg) == 1 || ft_strequ("--", arg[1]))
+			
 	{
+	ft_putnbr(arg_length(arg));
 		i = search_env("OLDPWD");
 		put_env("OLDPWD", cwd, i);
 		i = search_env("PWD");
