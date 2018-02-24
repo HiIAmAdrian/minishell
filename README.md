@@ -1,4 +1,4 @@
-# A unix-minishell wrote in C.
+# An unix-minishell wrote in C.
 
 The following commands are implemented:
 -cd
