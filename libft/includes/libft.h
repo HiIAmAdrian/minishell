@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/09 18:56:44 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/22 20:14:35 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/25 19:02:49 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #	include <unistd.h>
 #	include <stdlib.h>
 #	include <string.h>
+#	define M_ERROR "malloc: allocation error!"
 
 typedef	struct	s_list
 {
@@ -23,6 +24,7 @@ typedef	struct	s_list
 	struct s_list	*next;
 }				t_list;
 
+char			*ft_char_rm(char *str, char c);
 void			ft_matrix_clear(char **str);
 int				ft_isperfect(size_t n);
 int				ft_reverse(int n);

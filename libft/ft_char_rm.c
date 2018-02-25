@@ -1,29 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_matrixClear.c                                   :+:      :+:    :+:   */
+/*   ft_char_rm.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/22 19:46:19 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/25 19:12:53 by adstan           ###   ########.fr       */
+/*   Created: 2018/02/25 18:20:06 by adstan            #+#    #+#             */
+/*   Updated: 2018/02/25 18:56:51 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/libft.h"
 
-void	ft_matrix_clear(char **str)
+char	*ft_char_rm(char *str, char c)
 {
-	int i;
+	int		i;
+	int		nr;
+	char	*new;
 
 	i = 0;
-	if (str)
+	nr = 0;
+	while (str[i])
 	{
-		while (str[i])
-		{
-			free(str[i]);
-			i++;
-		}
-		free(str);
+		if (str[i] == c)
+			nr++;
+		i++;
 	}
+	if (!(new = (char*)ft_memalloc(sizeof(char) * (i + 1 - nr))))
+		ft_putendl_fd(M_ERROR, 2);
+	i = 0;
+	nr = 0;
+	while (str[i])
+	{
+		if (str[i] != c)
+			new[nr++] = str[i];
+		i++;
+	}
+	if (str)
+		free(str);
+	return (new);
 }

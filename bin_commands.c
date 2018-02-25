@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/24 14:36:05 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/24 16:44:42 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/25 18:30:06 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,18 @@ void	bin_exec(char **arg)
 	int			ok;
 
 	ok = 0;
-	paths = ft_strsplit(g_env[search_env("PATH")] + 5, ':');
-	i = 0;
-	while (paths[i] && !ok)
+	if (search_env("PATH") == -1)
+		ok = 0;
+	else
 	{
-		if ((is_there_ex(paths[i], arg)) == 0)
-			ok = 1;
-		i++;
+		paths = ft_strsplit(g_env[search_env("PATH")] + 5, ':');
+		i = 0;
+		while (paths[i] && !ok)
+		{
+			if ((is_there_ex(paths[i], arg)) == 0)
+				ok = 1;
+			i++;
+		}
 	}
 	execute_exe(arg, ok);
 }

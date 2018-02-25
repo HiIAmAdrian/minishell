@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/14 17:06:51 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/24 18:04:14 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/25 19:09:51 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 int		put_stdin(unsigned int key)
 {
 	if (key == K_TAB)
-		ft_putstr_fd("lol", 1);
+	{
+		key = -key;
+		key = -key;
+	}
 	if (key == K_ENTER)
 		return (0);
 	return (1);
@@ -41,6 +44,17 @@ char	*read_stdin(void)
 			free(str);
 		exit(0);
 	}
+	return (str);
+}
+
+char	*str_replace(char *str, char c, char r)
+{
+	int i;
+
+	i = 0;
+	while (str[i++])
+		if (str[i] == c)
+			str[i] = r;
 	return (str);
 }
 

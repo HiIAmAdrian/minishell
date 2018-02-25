@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 12:24:18 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/24 16:20:34 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/25 19:15:45 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ int		run_commands(char ***arg)
 	i = -1;
 	while (arg[++i])
 	{
-		if ((ft_strnequ(arg[i][0], "cd", 2)))
+		if ((ft_strequ(arg[i][0], "cd")))
 			cd_builtin(arg[i]);
-		else if ((ft_strnequ(arg[i][0], "echo", 4)))
+		else if ((ft_strequ(arg[i][0], "echo")))
 			echo_builtin(arg[i]);
-		else if ((ft_strnequ(arg[i][0], "env", 3)))
+		else if ((ft_strequ(arg[i][0], "env")))
 			env_builtin();
-		else if ((ft_strnequ(arg[i][0], "setenv", 6)))
+		else if ((ft_strequ(arg[i][0], "setenv")))
 			setenv_builtin(arg[i]);
-		else if ((ft_strnequ(arg[i][0], "unsetenv", 8)))
+		else if ((ft_strequ(arg[i][0], "unsetenv")))
 			unsetenv_builtin(arg[i]);
-		else if ((ft_strnequ(arg[i][0], "exit", 4)))
+		else if ((ft_strequ(arg[i][0], "exit")))
 			exit_sh();
 		else
 			bin_exec(arg[i]);

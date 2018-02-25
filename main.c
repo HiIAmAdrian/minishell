@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 10:58:50 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/24 16:39:51 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/25 19:18:16 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,17 @@ void	init(char **envp)
 		ft_matrix_clear(clear);
 }
 
+int		white_space(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i++])
+		if (str[i] > ' ')
+			return (i);
+	return (0);
+}
+
 int		main(int argc, char **argv, char **envp)
 {
 	char	*line;
@@ -70,12 +81,16 @@ int		main(int argc, char **argv, char **envp)
 		signal(SIGINT, signal_handler);
 		display_prompt();
 		line = read_stdin();
-		arguments = parse_stdin(line);
-		if (line)
-			free(line);
-		tri = parse_arguments(arguments);
-		if (arguments)
-			ft_matrix_clear(arguments);
-		run_commands(tri);
+		if ((white_space(line)))
+		{
+			line = str_replace(line, '\t', ' ');
+			arguments = parse_stdin(line);
+			if (line)
+				free(line);
+			tri = parse_arguments(arguments);
+			if (arguments)
+				ft_matrix_clear(arguments);
+			run_commands(tri);
+		}
 	}
 }

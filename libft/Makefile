@@ -6,7 +6,7 @@
 #    By: adstan <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/11 16:16:33 by adstan            #+#    #+#              #
-#    Updated: 2018/02/22 20:14:46 by adstan           ###   ########.fr        #
+#    Updated: 2018/02/25 18:50:11 by adstan           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,8 @@ SRC = ft_memset.c \
 		ft_lstdel.c \
 		ft_lstadd.c \
 		ft_lstiter.c \
-		ft_lstmap.c
+		ft_lstmap.c \
+		ft_char_rm.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: adstan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 11:12:19 by adstan            #+#    #+#             */
-/*   Updated: 2018/02/24 16:44:26 by adstan           ###   ########.fr       */
+/*   Updated: 2018/02/25 19:02:16 by adstan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,82 @@
 
 char	**g_env;
 char	*g_home;
-
-void	display_prompt();
-char	*read_stdin();
-char	**parse_stdin(char *str);
-int		run_commands(char ***arg);
-char	***parse_arguments(char **arg);
 char	*ft_char_rm(char *str, char c);
-void	echo_builtin(char **arg);
-void	init_env(char **envp);
+
+/*
+** set_env.c
+*/
+
 void	env_builtin(void);
-void	setenv_builtin(char **arg);
-void	unsetenv_builtin(char **arg);
-void	error_exit(char *str, int fd);
 int		search_env(char *str);
-void	exit_sh(void);
-void	cd_builtin(char **arg);
+void	init_free_env(char *str);
 void	put_env(char *str1, char *str2, int i);
-char	*ft_parse_home(char *str);
+void	setenv_builtin(char **arg);
+
+/*
+** bin_commands.c
+*/
+
+void	process_signal(int signo);
+int		exec_cmd(char *path, char **arg);
+int		is_there_ex1(struct dirent *ret, char **arg, char *str);
+int		is_there_ex(char *str, char **arg);
 void	bin_exec(char **arg);
+
+/*
+** cd.c
+*/
+
+void	change_dir(char *str, char *cwd);
+int		arg_length(char **arg);
+void	cd_builtin(char **arg);
 void	cd_builtin2(char *cwd, char **arg);
 void	execute_exe(char **arg, int ok);
-int		exec_cmd(char *path, char **arg);
+
+/*
+** display.c
+*/
+
+char	*ft_parse_home(char *str);
+void	display_prompt(void);
+
+/*
+** echo.c
+*/
+
+void	echo_builtin(char **arg);
+
+/*
+** exec_commands.c
+*/
+
+int		run_commands(char ***arg);
+
+/*
+** exit_unsetenv.c
+*/
+
+void	exit_sh(void);
+void	error_exit(char *str, int fd);
+void	unsetenv_builtin(char **arg);
+
+/*
+** main.c
+*/
+
+int		white_space(char *str);
+void	init(char **envp);
+void	signal_handler(int signo);
+void	init_env(char **envp);
+
+/*
+** reading.c
+*/
+
+int		put_stdin(unsigned int key);
+char	*read_stdin(void);
+char	*str_replace(char *str, char c, char r);
+char	**parse_stdin(char *str);
+char	***parse_arguments(char **arg);
 
 #endif
